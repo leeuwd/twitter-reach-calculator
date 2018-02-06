@@ -9,6 +9,14 @@ has retweeted the tweet. These results need to be stored in the cached for two h
 calculate the reach of a tweet that has already been calculated the results should be returned from the 
 cache. After two hours the cache should be updated.
 
+## Commands
+
+A selection of useful `php artisan ...` commands.
+
+| Command                                                               | Description                                        |
+| ----------------------------------------------------------------------| -------------------------------------------------- |
+| `ide-helper:generate`                                     			| Re-generate IDE documentation.                     |
+
 ## Sysops
 
 ### Environments
@@ -29,6 +37,11 @@ Debugbar::error('Error!');
 Debugbar::warning('Watch out…');
 Debugbar::addMessage('Another message', 'mylabel');
 ```
+
+### IDE
+
+I suggest using [Jetbrain's PHPStorm](https://www.jetbrains.com/phpstorm/). IDE config files are present in the repo to
+ease setting up your development environment and to ensure consistent code style and conventions.
 
 ## Attribution
 
