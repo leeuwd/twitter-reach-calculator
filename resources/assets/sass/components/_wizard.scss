@@ -1,0 +1,9 @@
+// base
+.wizard {
+    width: 100%;
+    max-width: ($spacer * 20);
+    margin: 0 auto;
+    padding: $spacer * 2;
+    border: 1px solid $gray-800;
+    border-radius: $border-radius;
+}

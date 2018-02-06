@@ -6,6 +6,8 @@
         @include('components.meta.head')
     </head>
     <body>
-        hello world
+       <article class="wizard">
+           hello world
+       </article>
     </body>
 </html>
