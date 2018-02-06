@@ -6,8 +6,6 @@
     @include('components.meta.head')
 </head>
 <body>
-<article class="wizard">
-    hello world
-</article>
+@include('components.wizard.base')
 </body>
 </html>

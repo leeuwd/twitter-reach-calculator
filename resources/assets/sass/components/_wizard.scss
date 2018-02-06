@@ -1,9 +1,75 @@
-// base
+// Base
+// ---------------------------------------
 .wizard {
     width: 100%;
-    max-width: ($spacer * 20);
+    max-width: ($spacer * 25);
     margin: 0 auto;
     padding: $spacer * 2;
-    border: 1px solid $gray-800;
     border-radius: $border-radius;
+    color: rgba($white, .8);
+}
+
+// Variants
+@each $color, $value in $colors {
+    .wizard--#{$color} {
+        background: $value;
+    }
+}
+
+// Title
+// ---------------------------------------
+.wizard__title {
+    margin-bottom: $spacer;
+    color: $white;
+    font-size: $h3-font-size;
+    font-weight: normal;
+}
+
+// Description
+// ---------------------------------------
+.wizard__description {
+    margin-bottom: $spacer * 2;
+}
+
+// Form elements
+// ---------------------------------------
+.wizard__form-group {
+    position: relative;
+    margin-bottom: $spacer * 2;
+
+    input {
+        color: rgba($white, .8);
+
+        &:focus {
+            color: $white;
+        }
+    }
+
+    > label {
+        position: absolute;
+        top: 0;
+        left: $input-padding-x-lg;
+        display: block;
+        width: 100%;
+        margin-bottom: 0;
+        transition: all .1s ease-in-out;
+        transform: translateY(50%);
+    }
+
+    // hide default placeholder
+    input::placeholder {
+        color: transparent;
+    }
+
+    // when user provided input
+    input:not(:placeholder-shown) {
+        padding-top: $input-padding-y-lg * 1.5;
+        padding-bottom: $input-padding-y-lg * 0.5;
+
+        ~ label {
+            font-size: $font-size-sm;
+            color: rgba($white, .6);
+            transform: translateY(0%);
+        }
+    }
 }
