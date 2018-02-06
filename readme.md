@@ -18,6 +18,18 @@ cache. After two hours the cache should be updated.
   - On macOS, install [Valet](https://laravel.com/docs/5.5/valet), run `valet link twitter-reach-calculator` from `/public` and open 
   [twitter-reach-calculator.dev](https://twitter-reach-calculator.dev). Use `valet secure twitter-reach-calculator` to secure with TLS.
 
+### Debugbar
+
+The [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar) is installed for development environments. 
+Auto enabled when `APP_DEBUG=true`.
+
+```php
+Debugbar::info($object);
+Debugbar::error('Error!');
+Debugbar::warning('Watch out…');
+Debugbar::addMessage('Another message', 'mylabel');
+```
+
 ## Attribution
 
 ### Author
