@@ -30,6 +30,11 @@ Debugbar::warning('Watch out…');
 Debugbar::addMessage('Another message', 'mylabel');
 ```
 
+### IDE
+
+I suggest using [Jetbrain's PHPStorm](https://www.jetbrains.com/phpstorm/). IDE config files are present in the repo to
+ease setting up your development environment and to ensure consistent code style and conventions.
+
 ## Attribution
 
 ### Author
