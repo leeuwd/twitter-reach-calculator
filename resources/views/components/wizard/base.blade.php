@@ -13,7 +13,7 @@
             <label for="urlInput">Tweet URL</label>
         </div>
 
-        <button class="btn btn-lg btn-block" type="submit">Retrieve reach</button>
+        <button class="btn btn-lg btn-block wizard__button" type="submit">Retrieve reach</button>
     </form>
 </article>
 

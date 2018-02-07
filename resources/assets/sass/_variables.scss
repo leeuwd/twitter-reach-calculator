@@ -48,3 +48,10 @@ $input-color: $body-color;
 $input-border-color: rgba(#000, .125);
 $input-focus-bg: rgba(#000, .02);
 $input-focus-color: lighten($body-color, 20%);
+
+// Wizard
+$wizard-color: rgba(#fff, .8);
+$wizard-heading-color: #fff;
+$wizard-max-width: 25rem;
+$wizard-padding: 2rem;
+$wizard-vertical-rhythm: 2rem;

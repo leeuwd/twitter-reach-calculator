@@ -2,11 +2,11 @@
 // ---------------------------------------
 .wizard {
     width: 100%;
-    max-width: ($spacer * 25);
+    max-width: $wizard-max-width;
     margin: 0 auto;
-    padding: $spacer * 2;
+    padding: $wizard-padding;
     border-radius: $border-radius;
-    color: rgba($white, .8);
+    color: $wizard-color;
 }
 
 // Variants
@@ -19,29 +19,36 @@
 // Title
 // ---------------------------------------
 .wizard__title {
-    margin-bottom: $spacer;
-    color: $white;
+    margin-bottom: $wizard-vertical-rhythm / 2;
+    color: $wizard-heading-color;
     font-size: $h3-font-size;
     font-weight: normal;
 }
 
-// Description
+// Vertical rhythm
 // ---------------------------------------
-.wizard__description {
-    margin-bottom: $spacer * 2;
+.wizard__description,
+.wizard__form-group {
+    margin-bottom: $wizard-vertical-rhythm;
 }
 
 // Form elements
 // ---------------------------------------
+
+// input container
 .wizard__form-group {
     position: relative;
-    margin-bottom: $spacer * 2;
+
+    // colours
+    input,
+    > label {
+        color: $wizard-color;
+    }
 
     input {
-        color: rgba($white, .8);
-
         &:focus {
             color: $white;
+            box-shadow: inset 0 .25rem .25rem rgba($black, .02);
         }
     }
 
@@ -67,9 +74,16 @@
         padding-bottom: $input-padding-y-lg * 0.5;
 
         ~ label {
-            font-size: $font-size-sm;
-            color: rgba($white, .6);
-            transform: translateY(0%);
+            opacity: .8;
+            font-size: 10px;
+            transform: translateY(15%);
         }
     }
+}
+
+// submit button
+.wizard__button {
+    border: none;
+    color: $body-bg;
+    background: $wizard-color;
 }
