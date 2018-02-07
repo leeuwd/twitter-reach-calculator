@@ -1,5 +1,5 @@
 <article class="wizard wizard--green">
-    <form>
+    <form class="wizard__form">
         <h1 class="wizard__title">Twitter reach calculator</h1>
         <p class="wizard__description">Please enter a Tweet URL and I will calculate the size of its audience.</p>
 
@@ -15,6 +15,9 @@
 
         <button class="btn btn-lg btn-block wizard__button" type="submit">Retrieve reach</button>
     </form>
+    <div class="wizard__results" aria-hidden="true">
+        results
+    </div>
 </article>
 
 
