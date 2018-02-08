@@ -1,0 +1,117 @@
+// Base
+// ---------------------------------------
+.wizard {
+    width: 90%;
+    max-width: $wizard-max-width;
+    margin: 0 auto;
+}
+
+// Form
+// ---------------------------------------
+.wizard__form {
+    border-radius: $border-radius;
+    color: $wizard-color;
+    padding: $wizard-padding;
+}
+
+// Results
+// ---------------------------------------
+.wizard__results {
+    padding: $wizard-padding;
+    opacity: 0;
+    visibility: hidden;
+    transition: $wizard-transition;
+    transform: translateY(-110%);
+
+    @at-root {
+        .wizard--has-results {
+            .wizard__results {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+// Variants
+// ---------------------------------------
+@each $color, $value in $colors {
+    .wizard--#{$color} {
+        .wizard__form {
+            background: $value;
+        }
+    }
+}
+
+// Title
+// ---------------------------------------
+.wizard__title {
+    margin-bottom: $wizard-vertical-rhythm / 2;
+    color: $wizard-heading-color;
+    font-size: $h3-font-size;
+    font-weight: normal;
+}
+
+// Vertical rhythm
+// ---------------------------------------
+.wizard__description,
+.wizard__form-group {
+    margin-bottom: $wizard-vertical-rhythm;
+}
+
+// Form elements
+// ---------------------------------------
+
+// input container
+.wizard__form-group {
+    position: relative;
+
+    // colours
+    input,
+    > label {
+        color: $wizard-color;
+    }
+
+    input {
+        &:focus {
+            color: $white;
+            box-shadow: inset 0 .25rem .25rem rgba($black, .02);
+        }
+    }
+
+    > label {
+        position: absolute;
+        top: 0;
+        left: $input-padding-x-lg;
+        display: block;
+        width: 100%;
+        margin-bottom: 0;
+        transition: $wizard-transition;
+        transform: translateY(50%);
+    }
+
+    // hide default placeholder
+    input::placeholder {
+        color: transparent;
+    }
+
+    // when user provided input
+    input:not(:placeholder-shown) {
+        padding-top: $input-padding-y-lg * 1.5;
+        padding-bottom: $input-padding-y-lg * 0.5;
+
+        ~ label {
+            opacity: .8;
+            font-size: 10px;
+            transform: translateY(15%);
+        }
+    }
+}
+
+// submit button
+.wizard__button {
+    border: none;
+    color: $body-bg;
+    background: $wizard-color;
+}

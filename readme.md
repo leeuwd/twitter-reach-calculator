@@ -9,6 +9,15 @@ has retweeted the tweet. These results need to be stored in the cached for two h
 calculate the reach of a tweet that has already been calculated the results should be returned from the 
 cache. After two hours the cache should be updated.
 
+So:
+
+- Input: URL of individual Tweet (string).
+- Output: calculated reach of Tweet (integer).
+- Cache lifetime: 120 minutes.
+- Definitions:
+	- Reach: actual (!= potential) size of audience for Tweet, i.e. being the sum of all followers
+	for everyone who retweeted the Tweet.
+
 ## Commands
 
 A selection of useful `php artisan ...` commands.
