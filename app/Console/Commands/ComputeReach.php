@@ -35,16 +35,6 @@ class ComputeReach extends Command
     protected $description = 'Compute the reach of a Tweet.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return void
