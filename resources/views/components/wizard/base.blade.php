@@ -1,23 +1,22 @@
 <article class="wizard wizard--green">
-    <form class="wizard__form">
-        <h1 class="wizard__title">Twitter reach calculator</h1>
-        <p class="wizard__description">Please enter a Tweet URL and I will calculate the size of its audience.</p>
+    {!! Form::open(['url' => 'TBD', 'class' => 'wizard__form']) !!}
+    <h1 class="wizard__title">@lang('wizard.title')</h1>
+    <p class="wizard__description">@lang('wizard.description')</p>
+    <div class="wizard__form-group">
+        {!! Form::url('urlInput', null, [
+            'class'         => 'form-control form-control-lg',
+            'placeholder'   => trans('wizard.label.tweet_url'),
+            'required',
+            'autofocus',
+        ]); !!}
 
-        <div class="wizard__form-group">
-            <input type="url"
-                   id="urlInput"
-                   class="form-control form-control-lg"
-                   placeholder="Tweet URL"
-                   required
-                   autofocus />
-            <label for="urlInput">Tweet URL</label>
-        </div>
-
-        <button class="btn btn-lg btn-block wizard__button" type="submit">Retrieve reach</button>
-    </form>
+        {!! Form::label('urlInput', trans('wizard.label.tweet_url')); !!}
+    </div>
+    <button class="btn btn-lg btn-block wizard__button" type="submit">
+        @lang('wizard.button.retrieve_reach')
+    </button>
+    {!! Form::close() !!}
     <div class="wizard__results" aria-hidden="true">
         results
     </div>
 </article>
-
-
