@@ -17,6 +17,16 @@ So:
 - Definitions:
 	- Reach: actual (!= potential) size of audience for Tweet, i.e. being the sum of all followers
 	for everyone who retweeted the Tweet.
+	
+Out of scope:
+
+- Contracts/interfaces.
+- Error throwing and handling.
+- Hitting the API rate limiter.
+
+Limitation:
+
+- By design, the Twitter API v1.1 only returns up to 100 user IDs who retweeted a Tweet, see the [API docs](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids).
 
 ## Commands
 

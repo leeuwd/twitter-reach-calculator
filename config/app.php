@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
         Thujohn\Twitter\TwitterServiceProvider::class,
+        Conner\Kint\KintServiceProvider::class,
 
         /*
          * Application Service Providers...

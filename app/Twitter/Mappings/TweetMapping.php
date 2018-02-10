@@ -20,6 +20,7 @@ class TweetMapping extends Mapping
         'source'                        => 'source',
         'lang'                          => 'lang',
         'retweeted'                     => 'retweeted',
+        'retweet_count'                 => 'retweet_count',
         'favorited'                     => 'favorited',
         'possibly_sensitive'            => 'possibly_sensitive',
         'possibly_sensitive_appealable' => 'possibly_sensitive_appealable',

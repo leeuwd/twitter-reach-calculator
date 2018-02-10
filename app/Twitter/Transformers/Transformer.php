@@ -36,11 +36,6 @@ abstract class Transformer
     {
         $result = [];
 
-        // Type cast to array, since array handling is easier
-        if (! \is_array($rawData)) {
-            $rawData = json_decode(json_encode($rawData), true);
-        }
-
         Log::debug('Raw data to transform', $rawData);
 
         // Loop through mapping and parse/set
