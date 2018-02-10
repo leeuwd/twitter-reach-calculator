@@ -17,6 +17,15 @@ So:
 - Definitions:
 	- Reach: actual (!= potential) size of audience for Tweet, i.e. being the sum of all followers
 	for everyone who retweeted the Tweet.
+	
+Out of scope:
+
+- Contracts/interfaces.
+- Hitting the API rate limiter.
+
+Limitation:
+
+- By design, the Twitter API v1.1 only returns up to 100 user IDs who retweeted a Tweet, see the [API docs](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids).
 
 ## Commands
 
@@ -27,6 +36,10 @@ A selection of useful `php artisan ...` commands.
 | `ide-helper:generate`                                     			| Re-generate IDE documentation.                     |
 
 ## Sysops
+
+### Requirements
+
+- PHP `>= 7.2.0`
 
 ### Environments
 
@@ -46,6 +59,9 @@ Debugbar::error('Error!');
 Debugbar::warning('Watch out…');
 Debugbar::addMessage('Another message', 'mylabel');
 ```
+
+### Kint
+[Kint](https://github.com/kint-php/kint) is installed for easy debugging when in CLI with `Kint::dump($var);`.
 
 ### IDE
 
