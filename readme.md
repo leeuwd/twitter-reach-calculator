@@ -37,6 +37,10 @@ A selection of useful `php artisan ...` commands.
 
 ## Sysops
 
+### Requirements
+
+- PHP `>= 7.2.0`
+
 ### Environments
 
 - Local: 
@@ -55,6 +59,9 @@ Debugbar::error('Error!');
 Debugbar::warning('Watch out…');
 Debugbar::addMessage('Another message', 'mylabel');
 ```
+
+### Kint
+[Kint](https://github.com/kint-php/kint) is installed for easy debugging when in CLI with `Kint::dump($var);`.
 
 ### IDE
 
