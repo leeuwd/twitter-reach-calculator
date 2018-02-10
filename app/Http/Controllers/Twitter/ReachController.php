@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Twitter;
 
-use \Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Twitter\Importer\Importer;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Log;
 
 class ReachController extends Controller
@@ -23,19 +23,18 @@ class ReachController extends Controller
         if (! $request->ajax() || ! $request->isMethod('GET')) {
             return response()->json(['error' => 'Invalid request'], 400);
         }
-Log::debug('', $request->all());
+
         try {
             $result = Importer::computeReach($request->input('tweet'));
 
             // Return metric
-            return response()->json([
-                'reach' => $result->reach,
-            ]);
+            return response()->json($result->toArray());
         } catch (\Exception $e) {
             report($e);
 
             return response()->json(['error' => $e->getMessage()], 500);
-        } finally {
+        }
+        finally {
             Log::debug('XMLHttpRequest data', $request->all());
         }
     }

@@ -137,4 +137,20 @@ final class ReachResult extends Model
     {
         return NumberHumanizer::metricSuffix($this->reach);
     }
+
+    /**
+     * Return result data as array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'reach'           => $this->reach,
+            'humanizedReach'  => $this->getHumanizedReachMetric(),
+            'hasRetweets'     => $this->hasRetweets ?? false,
+            'retweetersCount' => $this->retweetersCount ?? 0,
+            'tweet'           => $this->tweet->toArray(),
+        ];
+    }
 }
