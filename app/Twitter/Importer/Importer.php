@@ -48,6 +48,7 @@ class Importer
      * @param string $tweetUrl
      * @return ReachResult
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public static function computeReach(string $tweetUrl): ReachResult
     {
@@ -78,28 +79,6 @@ class Importer
 
         // Return object
         return $result;
-    }
-
-    /**
-     * Toggle progress bar for the operations that take time.
-     *
-     * @param bool $flag
-     * @return void
-     */
-    public static function useProgressBar(bool $flag): void
-    {
-        static::$useProgressBar = $flag;
-    }
-
-    /**
-     * Toggle progress bar for the operations that take time.
-     *
-     * @param \App\Twitter\Importer\Command $handler
-     * @return void
-     */
-    public static function setCommandHandler(Command $handler): void
-    {
-        static::$commandHandler = $handler;
     }
 
     /**
@@ -187,17 +166,19 @@ class Importer
             'count'   => self::getPageSize(),
         ];
 
+        // Create progress bar (when invoked via CLI)
+        $bar = static::$useProgressBar ? static::$commandHandler::getProgressBar(\count($tweeterIds) + 1) : false;
+
         // CLI progress bar
-        if (static::$useProgressBar) {
-            $bar = static::$commandHandler::getProgressBar(count($tweeterIds) + 1);
+        if ($bar) {
             $bar->setMessage('Fetching retweeters…');
         }
 
         // Fetch user data via API
         $usersData = TwitterApi::getUsersLookup($usersParameters);
 
-        // CLI progress bar
-        if (static::$useProgressBar) {
+        // Progress update
+        if ($bar) {
             $bar->setMessage('Fetching user data…');
             $bar->advance();
         }
@@ -210,13 +191,13 @@ class Importer
             $result->addRetweeter($user);
 
             // CLI progress bar
-            if (static::$useProgressBar) {
+            if ($bar) {
                 $bar->advance();
             }
         }
 
         // CLI progress bar
-        if (static::$useProgressBar) {
+        if ($bar) {
             $bar->clear();
         }
     }
@@ -229,5 +210,27 @@ class Importer
     protected static function getPageSize(): int
     {
         return min(self::TWITTER_API_PAGE_SIZE, 100);
+    }
+
+    /**
+     * Toggle progress bar for the operations that take time.
+     *
+     * @param bool $flag
+     * @return void
+     */
+    public static function useProgressBar(bool $flag): void
+    {
+        static::$useProgressBar = $flag;
+    }
+
+    /**
+     * Toggle progress bar for the operations that take time.
+     *
+     * @param \App\Twitter\Importer\Command $handler
+     * @return void
+     */
+    public static function setCommandHandler(Command $handler): void
+    {
+        static::$commandHandler = $handler;
     }
 }

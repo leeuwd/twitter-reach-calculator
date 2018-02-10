@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Twitter\Importer;
 
 use App\Console\Commands\ComputeReach;
+use App\Twitter\Models\ReachResult;
 use Illuminate\Console\OutputStyle;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -18,6 +19,11 @@ class Command
      * @var \Symfony\Component\Console\Helper\ProgressBar
      */
     public static $bar;
+
+    /**
+     * @var double
+     */
+    public $startTime;
 
     /**
      * Create a new instance.
@@ -53,7 +59,7 @@ class Command
     /**
      * Get CLI output style.
      *
-     * @return \Illuminate\Console\OutputStyle
+     * @return \Illuminate\Console\OutputStyle|\Symfony\Component\Console\Output\OutputInterface
      */
     protected static function getOutput(): OutputStyle
     {
@@ -68,55 +74,52 @@ class Command
      */
     public function compute(): void
     {
-        // CLI title
-        self::title('Tweet reach computation.');
-
-        // Confirm
-        if (! self::confirm('Do you want to compute the reach of the Tweet you provided?', true)) {
+        // Abort
+        if (! $this->preCompute()) {
             return;
         }
 
-        static::$command->line('');
-        $startTime = microtime(true);
-
-        // Compute reach
-        Importer::useProgressBar(true);
-        Importer::setCommandHandler($this);
-
         try {
-            $result = Importer::computeReach(static::$command->url);
+            $result = $this->computeReach();
 
-            // Tweet URL not valid (probably Tweet ID not in)
-            if (! $result->tweetUrlValid) {
-                self::error('The Tweet URL you provided is not valid.');
-
+            // Print results; when non-default results
+            // are found false is returned an we want
+            // to stop processing
+            if (! $this->printResult($result)) {
                 return;
             }
 
-            // Tweet ID not valid
-            if (! $result->tweetIdValid) {
-                self::error('The Tweet ID could no be extracted.');
-
-                return;
-            }
-
-            // Never retweeted
-            if (! $result->hasRetweets) {
-                self::comment('The Tweet URL you provided was never retweeted. Bye.');
-
-                return;
-            }
+            $this->postCompute();
         } catch (\Exception $e) {
             report($e);
 
             self::error($e->getMessage());
-
-            return;
         }
+    }
 
-        // Print results
-        self::info(\sprintf('The Tweet\'s had a reach of %s (%d).', $result->getHumanizedReachMetric(), $result->reach));
-        self::comment(\sprintf('Computing this took a total of %.1f seconds.', microtime(true) - $startTime));
+    /**
+     * Pre-compute job; some tasks before
+     * we do the actual computation.
+     *
+     * @return bool
+     */
+    protected function preCompute(): bool
+    {
+        // Print reports to construct
+        self::title('Tweet reach computation.');
+
+        // Confirmation question
+        $confirmed = self::confirm('Do you want to compute the reach of the Tweet you provided?', true);
+
+        // Now start counting
+        $this->startTime = microtime(true);
+
+        // Inform the importer we're running from CLI
+        Importer::useProgressBar(true);
+        Importer::setCommandHandler($this);
+
+        // Return bool
+        return $confirmed;
     }
 
     /**
@@ -157,6 +160,56 @@ class Command
     }
 
     /**
+     * Compute reach, being returned as part of
+     * ReachResult object.
+     *
+     * @return \App\Twitter\Models\ReachResult
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
+    protected function computeReach(): ReachResult
+    {
+        return Importer::computeReach(static::$command->url);
+    }
+
+    /**
+     * Compute reach, being returned as part of
+     * ReachResult object.
+     *
+     * @param ReachResult $result
+     * @return bool
+     */
+    protected function printResult(ReachResult $result): bool
+    {
+        // Tweet URL not valid (probably Tweet ID not in)
+        if (! $result->tweetUrlValid) {
+            self::error('The Tweet URL you provided is not valid.');
+
+            return false;
+        }
+
+        // Tweet ID not valid
+        if (! $result->tweetIdValid) {
+            self::error('The Tweet ID could no be extracted.');
+
+            return false;
+        }
+
+        // Never retweeted
+        if (! $result->hasRetweets) {
+            self::comment('The Tweet URL you provided was never retweeted. Bye.');
+
+            return false;
+        }
+
+        // Print final result
+        self::info(\sprintf('The Tweet\'s had a reach of %s (%d).', $result->getHumanizedReachMetric(), $result->reach));
+
+        // All good
+        return true;
+    }
+
+    /**
      * Write error line in terminal.
      *
      * @param string $string
@@ -175,5 +228,16 @@ class Command
     protected static function comment(string $string): void
     {
         static::$command->comment($string);
+    }
+
+    /**
+     * Post-compute job; print out process info.
+     *
+     * @param string $durationMessageFormat
+     * @return void
+     */
+    protected function postCompute(string $durationMessageFormat = 'Computing this took a total of %.1f seconds.'): void
+    {
+        self::comment(\sprintf($durationMessageFormat, microtime(true) - $this->startTime));
     }
 }
