@@ -9,9 +9,25 @@ use App\Twitter\Models\User;
 use App\Twitter\Transformers\TweetTransformer;
 use App\Twitter\Transformers\UserTransformer;
 use Twitter as TwitterApi;
+use Cache;
 
 class Importer
 {
+    /**
+     * Cache lifetime.
+     *
+     * @var int
+     */
+    public const CACHE_LIFETIME_MINUTES = 120;
+
+    /**
+     * Cache prefix to reduce likelihood
+     * of hash collisions.
+     *
+     * @var int
+     */
+    public const CACHE_PREFIX = self::class;
+
     /**
      * Format of results returned by API.
      *
@@ -51,6 +67,24 @@ class Importer
      * @throws \InvalidArgumentException
      */
     public static function computeReach(string $tweetUrl): ReachResult
+    {
+        $key = md5(self::CACHE_PREFIX . $tweetUrl);
+
+        // Closure called when result not in cache
+        return Cache::remember($key, self::CACHE_LIFETIME_MINUTES, function () use ($tweetUrl) {
+            return self::computeReachResults($tweetUrl);
+        });
+    }
+
+    /**
+     * Compute reach. Result object is returned.
+     *
+     * @param string $tweetUrl
+     * @return ReachResult
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
+    protected static function computeReachResults(string $tweetUrl): ReachResult
     {
         $result = new ReachResult();
         $result->tweetUrl = $tweetUrl;
