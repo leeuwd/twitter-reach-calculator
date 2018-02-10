@@ -82,25 +82,34 @@ class Command
         // Compute reach
         Importer::useProgressBar(true);
         Importer::setCommandHandler($this);
-        $result = Importer::computeReach(static::$command->url);
 
-        // Tweet URL not valid (probably Tweet ID not in)
-        if (! $result->tweetUrlValid) {
-            self::error('The Tweet URL you provided is not valid.');
+        try {
+            $result = Importer::computeReach(static::$command->url);
 
-            return;
-        }
+            // Tweet URL not valid (probably Tweet ID not in)
+            if (! $result->tweetUrlValid) {
+                self::error('The Tweet URL you provided is not valid.');
 
-        // Tweet ID not valid
-        if (! $result->tweetIdValid) {
-            self::error('The Tweet ID could no be extracted.');
+                return;
+            }
 
-            return;
-        }
+            // Tweet ID not valid
+            if (! $result->tweetIdValid) {
+                self::error('The Tweet ID could no be extracted.');
 
-        // Never retweeted
-        if (! $result->hasRetweets) {
-            self::comment('The Tweet URL you provided was never retweeted. Bye.');
+                return;
+            }
+
+            // Never retweeted
+            if (! $result->hasRetweets) {
+                self::comment('The Tweet URL you provided was never retweeted. Bye.');
+
+                return;
+            }
+        } catch (\Exception $e) {
+            report($e);
+
+            self::error($e->getMessage());
 
             return;
         }

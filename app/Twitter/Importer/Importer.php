@@ -47,6 +47,7 @@ class Importer
      *
      * @param string $tweetUrl
      * @return ReachResult
+     * @throws \RuntimeException
      */
     public static function computeReach(string $tweetUrl): ReachResult
     {
@@ -117,15 +118,17 @@ class Importer
      *
      * @param string $tweetUrl
      * @return int|null
+     * @throws \InvalidArgumentException
      */
     public static function getTweetIdFromTweetUrl(string $tweetUrl): ?int
     {
         $parts = explode('/', $tweetUrl);
         $id = end($parts);
 
-        // Quick and dirty validation
+        // Quick and dirty validation; expected input is 64-bit unsigned integer
+        // @see https://developer.twitter.com/en/docs/basics/twitter-ids
         if (! is_numeric($id)) {
-            return null;
+            throw new \InvalidArgumentException('The Tweet URL does not contain a valid status ID.');
         }
 
         return (int) $id;
@@ -136,6 +139,7 @@ class Importer
      *
      * @param int $tweetId
      * @return Tweet
+     * @throws \RuntimeException
      */
     public static function getTweet(int $tweetId): Tweet
     {
@@ -155,6 +159,7 @@ class Importer
      * @param ReachResult $result
      * @see https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids
      * @return void
+     * @throws \RuntimeException
      */
     public static function addRetweetersCollectionToResult(ReachResult $result): void
     {

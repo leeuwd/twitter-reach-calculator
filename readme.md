@@ -21,7 +21,6 @@ So:
 Out of scope:
 
 - Contracts/interfaces.
-- Error throwing and handling.
 - Hitting the API rate limiter.
 
 Limitation:
