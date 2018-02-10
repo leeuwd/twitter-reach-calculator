@@ -15,8 +15,9 @@ So:
 - Output: calculated reach of Tweet (integer).
 - Cache lifetime: 120 minutes.
 - Definitions:
-	- Reach: actual (!= potential) size of audience for Tweet, i.e. being the sum of all followers
+	- *Reach*: actual (!= potential) size of audience for Tweet, i.e. being the sum of all followers
 	for everyone who retweeted the Tweet.
+	- *Tweet URL*: URI with the [Twitter status ID](https://developer.twitter.com/en/docs/basics/twitter-ids) in it.
 	
 Out of scope:
 
@@ -25,15 +26,19 @@ Out of scope:
 
 Limitation:
 
-- By design, the Twitter API v1.1 only returns up to 100 user IDs who retweeted a Tweet, see the [API docs](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids).
+- By design, the Twitter API v1.1 only returns up to 100 user IDs who retweeted a Tweet, see the 
+[API docs](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids).
+There is no way around this for now. One could make a web scraper or some other convoluted way of solving the problem
+at hand, but not this time :)
 
 ## Commands
 
 A selection of useful `php artisan ...` commands.
 
-| Command                                                               | Description                                        |
-| ----------------------------------------------------------------------| -------------------------------------------------- |
-| `ide-helper:generate`                                     			| Re-generate IDE documentation.                     |
+| Command                                           | Description                                        		|
+| --------------------------------------------------| --------------------------------------------------------- |
+| `ide-helper:generate`                             | Re-generate IDE documentation.                     		|
+| `tweet:reach {tweetUrl}`                          | Compute the reach of a Tweet by providing a Tweet URL.    |
 
 ## Sysops
 
@@ -72,3 +77,9 @@ ease setting up your development environment and to ensure consistent code style
 
 ### Author
 - Dick de Leeuw, [leeuw.studio](https://leeuw.studio)
+
+### Dependencies
+- https://github.com/kint-php/kint
+- https://github.com/thujohn/twitter
+- https://github.com/coduo/php-humanizer
+- https://github.com/LaravelCollective/html
