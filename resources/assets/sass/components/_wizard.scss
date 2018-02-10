@@ -34,6 +34,7 @@
     visibility: hidden;
     transition: $wizard-transition;
     transform: translateY(-110%);
+    font-weight: 500;
 
     @at-root {
         .wizard--has-results {
@@ -51,6 +52,10 @@
                 animation-duration: .5s;
                 animation-timing-function: linear;
                 animation-iteration-count: 1;
+            }
+
+            .wizard__results {
+                color: $red;
             }
         }
     }
@@ -86,21 +91,22 @@
     }
 
     input {
+        box-shadow: inset 0 .25rem .25rem rgba($black, .03);
+
         &:focus {
             color: $white;
-            box-shadow: inset 0 .25rem .25rem rgba($black, .02);
+            box-shadow: none;
         }
     }
 
     > label {
         position: absolute;
         top: 0;
-        left: $input-padding-x-lg;
-        display: block;
-        width: 100%;
+        left: $input-padding-x-lg * 2;
         margin-bottom: 0;
         transition: $wizard-label-transition;
         transform: translateY(50%);
+        user-select: none;
     }
 
     // hide default placeholder
@@ -114,6 +120,7 @@
         padding-bottom: $input-padding-y-lg * 0.5;
 
         ~ label {
+            left: $input-padding-x-lg;
             opacity: .8;
             font-size: 10px;
             transform: translateY(15%);
