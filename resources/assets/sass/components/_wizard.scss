@@ -1,18 +1,18 @@
 // Base
 // ---------------------------------------
 .wizard {
-    width: 90%;
-    max-width: $wizard-max-width;
     margin: 0 auto;
+    max-width: $wizard-max-width;
+    width: 90%;
 }
 
 // Form
 // ---------------------------------------
 .wizard__form {
     border-radius: $border-radius;
+    box-shadow: 0 1rem 1rem 1rem rgba($black, .05);
     color: $wizard-color;
     padding: $wizard-padding;
-    box-shadow: 0 1rem 1rem 1rem rgba($black, .05);
     transition: $wizard-transition;
 }
 
@@ -29,12 +29,12 @@
 // Results
 // ---------------------------------------
 .wizard__results {
-    padding: $wizard-padding;
-    opacity: 0;
-    visibility: hidden;
-    transition: $wizard-transition;
-    transform: translateY(-110%);
     font-weight: 500;
+    opacity: 0;
+    padding: $wizard-padding;
+    transform: translateY(-110%);
+    transition: $wizard-transition;
+    visibility: hidden;
 
     @at-root {
         .wizard--has-results {
@@ -64,10 +64,10 @@
 // Title
 // ---------------------------------------
 .wizard__title {
-    margin-bottom: $wizard-vertical-rhythm / 2;
     color: $wizard-heading-color;
     font-size: $h3-font-size;
     font-weight: normal;
+    margin-bottom: $wizard-vertical-rhythm / 2;
 }
 
 // Vertical rhythm
@@ -94,18 +94,18 @@
         box-shadow: inset 0 .25rem .25rem rgba($black, .03);
 
         &:focus {
-            color: $white;
             box-shadow: none;
+            color: $white;
         }
     }
 
     > label {
-        position: absolute;
-        top: 0;
         left: $input-padding-x-lg * 2;
         margin-bottom: 0;
-        transition: $wizard-label-transition;
+        position: absolute;
+        top: 0;
         transform: translateY(50%);
+        transition: $wizard-label-transition;
         user-select: none;
     }
 
@@ -116,13 +116,13 @@
 
     // when user provided input
     input:not(:placeholder-shown) {
-        padding-top: $input-padding-y-lg * 1.5;
         padding-bottom: $input-padding-y-lg * 0.5;
+        padding-top: $input-padding-y-lg * 1.5;
 
         ~ label {
+            font-size: 10px;
             left: $input-padding-x-lg;
             opacity: .8;
-            font-size: 10px;
             transform: translateY(15%);
         }
     }
@@ -130,7 +130,7 @@
 
 // submit button
 .wizard__button {
+    background: $wizard-color;
     border: none;
     color: $body-bg;
-    background: $wizard-color;
 }
