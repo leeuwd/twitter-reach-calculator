@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Twitter reach endpoint
+Route::get('/twitter/reach', 'Twitter\ReachController@compute')->name('getReach');
