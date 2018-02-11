@@ -29,8 +29,8 @@
 // Results
 // ---------------------------------------
 .wizard__results {
-    font-weight: 500;
     font-size: $font-size-lg;
+    font-weight: 500;
     opacity: 0;
     padding: $wizard-padding;
     transform: translateY(-110%);
@@ -125,14 +125,16 @@
 .wizard__button {
     background: $white;
     border: none;
-    color: $body-bg;
     box-shadow: 0 .25rem .25rem rgba($black, .1);
+    color: $body-bg;
 
     &:hover,
     &:active {
         box-shadow: none;
     }
 
+    // Make the button look disabled too,
+    // i.e. proper button affordance
     &:disabled {
         opacity: .5;
     }
@@ -147,16 +149,16 @@
     &:before {
         @include size(100%, $spacer / 2);
 
-        animation-name: progress-bar;
         animation-duration: .5s;
-        animation-timing-function: linear;
         animation-iteration-count: infinite;
+        animation-name: progress-bar;
+        animation-timing-function: linear;
 
-        top: 0;
+        background: rgba(255, 255, 255, .4);
         content: '';
         display: block;
         position: absolute;
-        background: rgba(255, 255, 255, .4);
+        top: 0;
     }
 
     .wizard__button {
@@ -168,15 +170,14 @@
 // ---------------------------------------
 .wizard--has-error {
     .wizard__form {
-        background: $red;
-        animation-name: shake-gentle;
         animation-duration: .5s;
-        animation-timing-function: linear;
         animation-iteration-count: 1;
+        animation-name: shake-gentle;
+        animation-timing-function: linear;
+        background: $red;
     }
 
     .wizard__results {
         color: $red;
     }
 }
-
