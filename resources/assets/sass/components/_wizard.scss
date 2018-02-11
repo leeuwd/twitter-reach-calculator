@@ -30,6 +30,7 @@
 // ---------------------------------------
 .wizard__results {
     font-weight: 500;
+    font-size: $font-size-lg;
     opacity: 0;
     padding: $wizard-padding;
     transform: translateY(-110%);
@@ -85,15 +86,16 @@
     position: relative;
 
     // colours
-    input,
+    .form-control,
     > label {
         color: $wizard-color;
     }
 
-    input {
+    .form-control {
         box-shadow: inset 0 .25rem .25rem rgba($black, .03);
 
         &:focus {
+            border-color: currentColor;
             box-shadow: none;
             color: $white;
         }
@@ -110,12 +112,12 @@
     }
 
     // hide default placeholder
-    input::placeholder {
+    .form-control::placeholder {
         color: transparent;
     }
 
     // when user provided input
-    input:not(:placeholder-shown) {
+    .form-control:not(:placeholder-shown) {
         padding-bottom: $input-padding-y-lg * 0.5;
         padding-top: $input-padding-y-lg * 1.5;
 
@@ -130,9 +132,15 @@
 
 // submit button
 .wizard__button {
-    background: $wizard-color;
+    background: $white;
     border: none;
     color: $body-bg;
+    box-shadow: 0 .25rem .25rem rgba($black, .1);
+
+    &:hover,
+    &:active {
+        box-shadow: none;
+    }
 }
 
 // Loading state
@@ -145,7 +153,7 @@
         @include size(100%, $spacer / 2);
 
         animation-name: progress-bar;
-        animation-duration: 1s;
+        animation-duration: .5s;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
 
