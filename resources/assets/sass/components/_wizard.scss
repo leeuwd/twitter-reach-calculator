@@ -134,3 +134,29 @@
     border: none;
     color: $body-bg;
 }
+
+// Loading state
+// ---------------------------------------
+.wizard--is-loading {
+    position: relative;
+
+    // Pseudo element loading bar
+    &:before {
+        @include size(100%, $spacer / 2);
+
+        animation-name: progress-bar;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+
+        top: 0;
+        content: '';
+        display: block;
+        position: absolute;
+        background: rgba(255, 255, 255, .4);
+    }
+
+    .wizard__button {
+        pointer-events: none;
+    }
+}

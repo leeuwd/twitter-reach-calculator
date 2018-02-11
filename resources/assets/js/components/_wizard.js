@@ -22,6 +22,7 @@ twitter.Wizard = (function ($) {
     return {
         HAS_RESULTS_CLASS: 'wizard--has-results',
         HAS_ERROR_CLASS: 'wizard--has-error',
+        IS_LOADING_CLASS: 'wizard--is-loading',
 
         /**
          * Initialization.
@@ -42,18 +43,8 @@ twitter.Wizard = (function ($) {
 
             // Request-response to backend
             $.subscribe('wizard/form/submit', function () {
-                $.when(self.xmlHttpRequest($form.attr('action'), {tweet: $urlInput.val()}))
-                    .always(function () {
-                        self.toggleButton(true);
-                    })
-                    .then(function (response) {
-                        $.publish('twitter/log/debug', [module, 'request completed', response]);
-                        $.publish('wizard/ajax/done', response);
-                    })
-                    .catch(function (error) {
-                        $.publish('twitter/log/error', [module, 'request error', error.response.data.error]);
-                        $.publish('wizard/ajax/error', {message: error.response.data.error});
-                    });
+                self.setLoadingState(true);
+                self.initXmlHttpRequest();
             });
 
             // Publish event when form is submitted
@@ -79,6 +70,34 @@ twitter.Wizard = (function ($) {
         },
 
         /**
+         * Init handling Axios Promise.
+         */
+        initXmlHttpRequest: function () {
+            $.when(self.xmlHttpRequest($form.attr('action'), {tweet: $urlInput.val()}))
+                .always(function (data) {
+                    self.setLoadingState(false);
+                    $.publish('twitter/log/debug', [module, 'XMLHttpRequest', data]);
+                })
+                .then(function (response) {
+                    $.publish('wizard/ajax/done', response);
+                })
+                .catch(function (error) {
+                    $.publish('wizard/ajax/error', {message: error.response.data.error});
+                });
+        },
+
+        /**
+         * Wizard loading state; lock button and
+         * present a loading animation.
+         *
+         * @param {boolean} enabled
+         */
+        setLoadingState: function (enabled) {
+            $wizard.toggleClass(self.IS_LOADING_CLASS, enabled);
+            self.toggleButton(!enabled);
+        },
+
+        /**
          * Set error message.
          *
          * @param {string} message
@@ -99,7 +118,8 @@ twitter.Wizard = (function ($) {
         resetState: function () {
             // Remove variant classes on base
             $wizard.removeClass(self.HAS_RESULTS_CLASS)
-                .removeClass(self.HAS_ERROR_CLASS);
+                .removeClass(self.HAS_ERROR_CLASS)
+                .removeClass(self.IS_LOADING_CLASS);
 
             // Results are hidden
             $results.attr('aria-hidden', true);
