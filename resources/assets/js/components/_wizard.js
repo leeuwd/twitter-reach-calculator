@@ -117,7 +117,7 @@ twitter.Wizard = (function ($) {
             $wizard.addClass(self.HAS_RESULTS_CLASS);
 
             // Optional extra class
-            if (typeof additionalClass === 'undefined') {
+            if (typeof additionalClass !== 'undefined') {
                 $wizard.addClass(additionalClass);
             }
         },
