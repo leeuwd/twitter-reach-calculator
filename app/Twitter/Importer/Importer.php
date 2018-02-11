@@ -8,8 +8,8 @@ use App\Twitter\Models\Tweet;
 use App\Twitter\Models\User;
 use App\Twitter\Transformers\TweetTransformer;
 use App\Twitter\Transformers\UserTransformer;
-use Twitter as TwitterApi;
 use Cache;
+use Twitter as TwitterApi;
 
 class Importer
 {
@@ -86,24 +86,24 @@ class Importer
      */
     protected static function computeReachResults(string $tweetUrl): ReachResult
     {
-        $result = new ReachResult();
-        $result->tweetUrl = $tweetUrl;
-        $result->tweetUrlValid = self::isValidUrl($tweetUrl);
-        $result->tweetId = $result->tweetUrlValid ? self::getTweetIdFromTweetUrl($tweetUrl) : null;
-        $result->tweetIdValid = $result->tweetId !== null;
+        // Parse input to get Tweet ID
+        $tweetId = self::isValidUrl($tweetUrl) ? self::getTweetIdFromTweetUrl($tweetUrl) : null;
+
+        // Set initial data
+        $result = (new ReachResult())
+            ->setTweetUrl($tweetUrl)
+            ->setTweetId($tweetId);
 
         // Performance improvement, stop early
-        if (! ($result->tweetUrlValid && $result->tweetIdValid)) {
+        if (! $result->tweetIdIsValid()) {
             return $result;
         }
 
         // Set original Tweet
-        $result->tweet = self::getTweet($result->tweetId);
-        $result->author = $result->tweet->user ?? null;
-        $result->hasRetweets = ($result->tweet->retweet_count ?? 0) > 0;
+        $result->setTweet(self::getTweet($tweetId));
 
         // Performance improvement, stop early
-        if (! $result->hasRetweets) {
+        if (! $result->hasRetweets()) {
             return $result;
         }
 
@@ -180,7 +180,7 @@ class Importer
         /* @var $usersData array[] */
 
         $retweetersParameters = [
-            'id'     => $result->tweetId,
+            'id'     => $result->getTweetId(),
             'format' => self::TWITTER_API_DEFAULT_FORMAT,
             'count'  => self::getPageSize(),
         ];
