@@ -33,8 +33,7 @@ class ReachController extends Controller
             report($e);
 
             return response()->json(['error' => $e->getMessage()], 500);
-        }
-        finally {
+        } finally {
             Log::debug('XMLHttpRequest data', $request->all());
         }
     }

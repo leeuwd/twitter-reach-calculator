@@ -65,6 +65,15 @@ final class ReachResult extends Model
     }
 
     /**
+     * Initialize internal variables.
+     */
+    protected function init(): void
+    {
+        // New empty collection
+        $this->retweeters = Collection::make();
+    }
+
+    /**
      * Add retweeter to collection.
      *
      * @param \App\Twitter\Models\User $retweeter
@@ -85,32 +94,6 @@ final class ReachResult extends Model
     }
 
     /**
-     * Get reach description: one sentence with humanized
-     * reach number and the raw reach integer.
-     *
-     * @return string
-     */
-    public function getReachDescription(): string
-    {
-        return trans('wizard.result', [
-            'humanized' => $this->getHumanizedReachMetric(),
-            'number'    => $this->getReach(),
-        ]);
-    }
-
-    /**
-     * Get humanized number of reach metric,
-     * i.e. 2K, 1M or just plain 10 for the
-     * less popular Tweets.
-     *
-     * @return string
-     */
-    public function getHumanizedReachMetric(): string
-    {
-        return NumberHumanizer::metricSuffix($this->reach);
-    }
-
-    /**
      * Set Tweet URL.
      *
      * @param string $url
@@ -119,20 +102,6 @@ final class ReachResult extends Model
     public function setTweetUrl(string $url): ReachResult
     {
         $this->tweetUrl = $url;
-
-        return $this;
-    }
-
-    /**
-     * Set optional Tweet ID. Optionality allows
-     * responsibility of validation elsewhere.
-     *
-     * @param int|null $id
-     * @return \App\Twitter\Models\ReachResult
-     */
-    public function setTweetId(?int $id): ReachResult
-    {
-        $this->tweetId = $id;
 
         return $this;
     }
@@ -162,6 +131,20 @@ final class ReachResult extends Model
     }
 
     /**
+     * Set optional Tweet ID. Optionality allows
+     * responsibility of validation elsewhere.
+     *
+     * @param int|null $id
+     * @return \App\Twitter\Models\ReachResult
+     */
+    public function setTweetId(?int $id): ReachResult
+    {
+        $this->tweetId = $id;
+
+        return $this;
+    }
+
+    /**
      * Get author in the form of a User object.
      *
      * @return \App\Twitter\Models\User
@@ -169,36 +152,6 @@ final class ReachResult extends Model
     public function getAuthor(): User
     {
         return $this->tweet->user;
-    }
-
-    /**
-     * Get reach metric.
-     *
-     * @return int
-     */
-    public function getReach(): int
-    {
-        return $this->reach;
-    }
-
-    /**
-     * Return whether we have retweets.
-     *
-     * @return bool
-     */
-    public function hasRetweets(): bool
-    {
-        return ($this->tweet->retweet_count ?? 0) > 0;
-    }
-
-    /**
-     * Get count of retweeters
-     *
-     * @return int
-     */
-    public function getRetweetersCount(): int
-    {
-        return $this->retweetersCount;
     }
 
     /**
@@ -229,11 +182,58 @@ final class ReachResult extends Model
     }
 
     /**
-     * Initialize internal variables.
+     * Get reach metric.
+     *
+     * @return int
      */
-    protected function init(): void
+    public function getReach(): int
     {
-        // New empty collection
-        $this->retweeters = Collection::make();
+        return $this->reach;
+    }
+
+    /**
+     * Get humanized number of reach metric,
+     * i.e. 2K, 1M or just plain 10 for the
+     * less popular Tweets.
+     *
+     * @return string
+     */
+    public function getHumanizedReachMetric(): string
+    {
+        return NumberHumanizer::metricSuffix($this->reach);
+    }
+
+    /**
+     * Get reach description: one sentence with humanized
+     * reach number and the raw reach integer.
+     *
+     * @return string
+     */
+    public function getReachDescription(): string
+    {
+        return trans('wizard.result', [
+            'humanized' => $this->getHumanizedReachMetric(),
+            'number'    => $this->getReach(),
+        ]);
+    }
+
+    /**
+     * Return whether we have retweets.
+     *
+     * @return bool
+     */
+    public function hasRetweets(): bool
+    {
+        return ($this->tweet->retweet_count ?? 0) > 0;
+    }
+
+    /**
+     * Get count of retweeters
+     *
+     * @return int
+     */
+    public function getRetweetersCount(): int
+    {
+        return $this->retweetersCount;
     }
 }
