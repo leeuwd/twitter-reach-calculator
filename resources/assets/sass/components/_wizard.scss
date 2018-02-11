@@ -39,24 +39,15 @@
 
     @at-root {
         .wizard--has-results {
+            .wizard__form {
+                background: $green;
+            }
+
             .wizard__results {
                 opacity: 1;
                 visibility: visible;
                 transform: translateY(0);
-            }
-        }
-
-        .wizard--has-error {
-            .wizard__form {
-                background: $red;
-                animation-name: shake-gentle;
-                animation-duration: .5s;
-                animation-timing-function: linear;
-                animation-iteration-count: 1;
-            }
-
-            .wizard__results {
-                color: $red;
+                color: $green;
             }
         }
     }
@@ -168,3 +159,20 @@
         pointer-events: none;
     }
 }
+
+// Error state
+// ---------------------------------------
+.wizard--has-error {
+    .wizard__form {
+        background: $red;
+        animation-name: shake-gentle;
+        animation-duration: .5s;
+        animation-timing-function: linear;
+        animation-iteration-count: 1;
+    }
+
+    .wizard__results {
+        color: $red;
+    }
+}
+

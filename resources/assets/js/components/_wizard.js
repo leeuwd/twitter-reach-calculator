@@ -65,7 +65,12 @@ twitter.Wizard = (function ($) {
         initMessages: function () {
             // Handle errors
             $.subscribe('wizard/ajax/error', function (e, error) {
-                self.setError(error.message);
+                self.setMessage(error.message, self.HAS_ERROR_CLASS);
+            });
+
+            // Handle success
+            $.subscribe('wizard/ajax/done', function (e, response) {
+                self.setMessage(response.data.reachDescription);
             });
         },
 
@@ -98,18 +103,23 @@ twitter.Wizard = (function ($) {
         },
 
         /**
-         * Set error message.
+         * Set message in results container.
          *
          * @param {string} message
+         * @param {string|undefined} additionalClass
          */
-        setError: function (message) {
+        setMessage: function (message, additionalClass) {
             $results
                 .text(message)
                 .attr('aria-hidden', false);
 
             // Slides out results panel
-            $wizard.addClass(self.HAS_RESULTS_CLASS)
-                .addClass(self.HAS_ERROR_CLASS);
+            $wizard.addClass(self.HAS_RESULTS_CLASS);
+
+            // Optional extra class
+            if (typeof additionalClass === 'undefined') {
+                $wizard.addClass(additionalClass);
+            }
         },
 
         /**

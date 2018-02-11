@@ -219,11 +219,12 @@ final class ReachResult extends Model
     public function toArray(): array
     {
         return [
-            'reach'           => $this->getReach(),
-            'humanizedReach'  => $this->getHumanizedReachMetric(),
-            'hasRetweets'     => $this->hasRetweets(),
-            'retweetersCount' => $this->getRetweetersCount(),
-            'tweet'           => $this->tweet->toArray(),
+            'reach'            => $this->getReach(),
+            'humanizedReach'   => $this->getHumanizedReachMetric(),
+            'reachDescription' => $this->getReachDescription(),
+            'hasRetweets'      => $this->hasRetweets(),
+            'retweetersCount'  => $this->getRetweetersCount(),
+            'tweet'            => $this->tweet->toArray(),
         ];
     }
 
