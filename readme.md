@@ -18,18 +18,40 @@ So:
 	- *Reach*: actual (!= potential) size of audience for Tweet, i.e. being the sum of all followers
 	for everyone who retweeted the Tweet.
 	- *Tweet URL*: URI with the [Twitter status ID](https://developer.twitter.com/en/docs/basics/twitter-ids) in it.
-	
-Out of scope:
 
-- Contracts/interfaces.
-- Hitting the API rate limiter.
+## Deliverable
 
-Limitation:
+### CLI
+
+A `php artisan tweet:reach {url}` command to compute a Tweet's reach. Properly shows human input error's.
+
+![CLI](public/img/cli.mp4?raw=true "CLI")
+
+### Web UI
+
+A small web tool calculate a Tweet's reach. Default, success and error state.
+
+![Web](public/img/web.mp4?raw=true "Web")
+
+### Unit test
+
+Basic tests as proof of concept. Including model factories in `/database/factories/`.
+
+![Unit tests](public/img/tests.mp4?raw=true "Unit tests")
+
+### Limitation
 
 - By design, the Twitter API v1.1 only returns up to 100 user IDs who retweeted a Tweet, see the 
 [API docs](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids).
 There is no way around this for now. One could make a web scraper or some other convoluted way of solving the problem
 at hand, but not this time :)
+
+Out of scope:
+
+- Contracts/interfaces.
+- Hitting the API rate limiter.
+- 100% code coverage.
+- DDD's domain research.
 
 ## Commands
 
