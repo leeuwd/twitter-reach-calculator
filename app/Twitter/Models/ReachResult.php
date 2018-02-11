@@ -107,20 +107,6 @@ final class ReachResult extends Model
     }
 
     /**
-     * Set optional Tweet ID. Optionality allows
-     * responsibility of validation elsewhere.
-     *
-     * @param Tweet $tweet
-     * @return \App\Twitter\Models\ReachResult
-     */
-    public function setTweet(Tweet $tweet): ReachResult
-    {
-        $this->tweet = $tweet;
-
-        return $this;
-    }
-
-    /**
      * Get Tweet ID.
      *
      * @return int|null
@@ -235,5 +221,39 @@ final class ReachResult extends Model
     public function getRetweetersCount(): int
     {
         return $this->retweetersCount;
+    }
+
+    /**
+     * Get retweeters collection.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getRetweeters(): Collection
+    {
+        return $this->retweeters;
+    }
+
+    /**
+     * Get original Tweet.
+     *
+     * @return \App\Twitter\Models\Tweet
+     */
+    public function getTweet(): Tweet
+    {
+        return $this->tweet;
+    }
+
+    /**
+     * Set optional Tweet ID. Optionality allows
+     * responsibility of validation elsewhere.
+     *
+     * @param Tweet $tweet
+     * @return \App\Twitter\Models\ReachResult
+     */
+    public function setTweet(Tweet $tweet): ReachResult
+    {
+        $this->tweet = $tweet;
+
+        return $this;
     }
 }
