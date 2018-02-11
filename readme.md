@@ -25,19 +25,19 @@ So:
 
 A `php artisan tweet:reach {url}` command to compute a Tweet's reach. Properly shows human input error's.
 
-![CLI](public/img/cli.mp4?raw=true "CLI")
+![CLI](public/img/cli.gif "CLI")
 
 ### Web UI
 
 A small web tool calculate a Tweet's reach. Default, success and error state.
 
-![Web](public/img/web.mp4?raw=true "Web")
+![Web](public/img/web.gif "Web")
 
 ### Unit test
 
 Basic tests as proof of concept. Including model factories in `/database/factories/`.
 
-![Unit tests](public/img/tests.mp4?raw=true "Unit tests")
+![Unit tests](public/img/tests.gif "Unit tests")
 
 ### Limitation
 
