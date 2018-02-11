@@ -37,3 +37,15 @@ $factory->state(User::class, 'leecher', function () {
         'statuses_count' => 0,
     ];
 });
+
+// Deterministic for tests
+$factory->state(User::class, 'deterministic', function () {
+    return [
+        'followers_count'  => 1,
+        'friends_count'    => 1,
+        'listed_count'     => 1,
+        'favourites_count' => 1,
+        'statuses_count'   => 1,
+    ];
+});
+
