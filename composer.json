@@ -1,20 +1,39 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "leeuwd/twitter-reach-calculator",
+    "description": "Twitter reach calculator.",
+    "keywords": [
+        "twitter",
+        "reach",
+        "calculator",
+        "test"
+    ],
     "license": "MIT",
     "type": "project",
+    "authors": [
+        {
+            "name": "Dick de Leeuw",
+            "email": "dick@leeuw.studio",
+            "homepage": "https://leeuw.studio"
+        }
+    ],
     "require": {
-        "php": ">=7.0.0",
-        "fideloper/proxy": "~3.3",
-        "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0"
+        "php": ">=7.2.0",
+        "coduo/php-humanizer": "^2.0",
+        "fideloper/proxy": "~4.0",
+        "laravel/framework": "5.6.*",
+        "laravel/tinker": "~1.0",
+        "laravelcollective/html": "^5.6",
+        "rtconner/laravel-kint": "~3.0",
+        "thujohn/twitter": "^2.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
+        "barryvdh/laravel-ide-helper": "^2.4",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0",
+        "phpunit/phpunit": "~7.0",
+        "roave/security-advisories": "dev-master",
         "symfony/thanks": "^1.0"
     },
     "autoload": {
@@ -47,6 +66,11 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
+        ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "php artisan ide-helper:generate",
+            "php artisan ide-helper:meta"
         ]
     },
     "config": {

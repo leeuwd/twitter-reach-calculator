@@ -1,38 +1,59 @@
+// Grayscale
+$gray-600: #8B97A6;
+$gray-700: #606873;
+$gray-800: #40464D;
+$gray-900: #252830;
+
+// Colors
+$blue: #1997c6;
+$indigo: #7877EF;
+$purple: #9F86FF;
+$pink: #E64796;
+$red: #E64759;
+$orange: #E68C42;
+$yellow: #E4D836;
+$green: #1BC98E;
+$teal: #1BC98E;
+$dark: $gray-900;
 
 // Body
-$body-bg: #f5f8fa;
-
-// Borders
-$laravel-border-color: darken($body-bg, 10%);
-$list-group-border: $laravel-border-color;
-$navbar-default-border: $laravel-border-color;
-$panel-default-border: $laravel-border-color;
-$panel-inner-border: $laravel-border-color;
+$body-bg: $gray-900;
+$body-color: $gray-600;
 
 // Brands
-$brand-primary: #3097D1;
-$brand-info: #8eb4cb;
-$brand-success: #2ab27b;
-$brand-warning: #cbb956;
-$brand-danger: #bf5329;
+$primary: $green;
+$info: $indigo;
+$success: $green;
+$warning: $orange;
+$danger: $red;
 
-// Typography
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-$font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 14px;
-$line-height-base: 1.6;
-$text-color: #636b6f;
+// Type
+$font-size-base: 14/16 * 1rem;
+$text-muted: $gray-700;
+
+// Headings
+$headings-color: #f8f9fa;
 
 // Navbar
-$navbar-default-bg: #fff;
+$navbar-dark-color: $body-color;
 
-// Buttons
-$btn-default-color: $text-color;
+// Table
+$table-dark-bg: $body-bg;
+$table-dark-color: $body-color;
 
-// Inputs
-$input-border: lighten($text-color, 40%);
-$input-border-focus: lighten($brand-primary, 25%);
-$input-color-placeholder: lighten($text-color, 30%);
+// Forms
+$input-bg: rgba(#000, .03);
+$input-disabled-bg: $body-bg;
+$input-color: $body-color;
+$input-border-color: rgba(#000, .125);
+$input-focus-bg: rgba(#000, .02);
+$input-focus-color: lighten($body-color, 20%);
 
-// Panels
-$panel-default-heading-bg: #fff;
+// Wizard
+$wizard-color: rgba(#fff, .8);
+$wizard-heading-color: #fff;
+$wizard-max-width: 40rem;
+$wizard-padding: 2rem;
+$wizard-vertical-rhythm: 2rem;
+$wizard-transition: all .5s ease-in-out;
+$wizard-label-transition: all .2s ease-out;
