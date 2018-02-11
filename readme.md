@@ -73,6 +73,25 @@ Debugbar::addMessage('Another message', 'mylabel');
 I suggest using [Jetbrain's PHPStorm](https://www.jetbrains.com/phpstorm/). IDE config files are present in the repo to
 ease setting up your development environment and to ensure consistent code style and conventions.
 
+## Conventions
+
+### Code style
+
+Laravel follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) 
+coding standard and the [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) 
+autoloading standard. We use a custom code style, i.e. some small modifications of PSR-2. Please adhere to `.editorconfig`
+and the IDE settings defined in `/.idea` folder (set PHPStorm code style to 'Project').
+
+## Branching
+
+Please adhere to [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching
+conventions.
+
+## Javascript pattern
+
+Please use the [publish-subscribe](https://en.wikipedia.org/wiki/Publish–subscribe_pattern) (pub-sub) pattern. It allows
+a high cohesion and low coupling.
+
 ## Attribution
 
 ### Author
