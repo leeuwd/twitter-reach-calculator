@@ -3,81 +3,53 @@ declare(strict_types=1);
 
 namespace App\Twitter\Models;
 
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Coduo\PHPHumanizer\NumberHumanizer;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 final class ReachResult extends Model
 {
-    /**
-     * Tweet author.
-     *
-     * @var User|null;
-     */
-    public $author;
-
     /**
      * Original Tweet.
      *
      * @var Tweet|null;
      */
-    public $tweet;
+    protected $tweet;
 
     /**
      * Original Tweet URL.
      *
      * @var string|null;
      */
-    public $tweetUrl;
-
-    /**
-     * Flag whether Tweet URL is valid.
-     *
-     * @var bool;
-     */
-    public $tweetUrlValid = false;
+    protected $tweetUrl;
 
     /**
      * Original Tweet ID.
      *
      * @var int|null;
      */
-    public $tweetId;
-
-    /**
-     * Flag whether Tweet ID is valid.
-     *
-     * @var bool;
-     */
-    public $tweetIdValid = false;
-
-    /**
-     * Flag whether we have retweets at all.
-     *
-     * @var bool
-     */
-    public $hasRetweets = false;
+    protected $tweetId;
 
     /**
      * Collection of retweeters.
      *
      * @var Collection
      */
-    public $retweeters;
+    protected $retweeters;
 
     /**
      * Retweeters count.
      *
      * @var int;
      */
-    public $retweetersCount;
+    protected $retweetersCount = 0;
 
     /**
      * Reach metric.
      *
      * @var int;
      */
-    public $reach;
+    protected $reach = 0;
 
     /**
      * Boa constructor.
@@ -93,16 +65,11 @@ final class ReachResult extends Model
     }
 
     /**
-     * Initialize.
+     * Initialize internal variables.
      */
     protected function init(): void
     {
-        // New empty collection; counters are here for
-        // performance improvement since it prevents
-        // looping through the collection and plucking
-        // data
-        $this->reach = 0;
-        $this->retweetersCount = 0;
+        // New empty collection
         $this->retweeters = Collection::make();
     }
 
@@ -120,10 +87,108 @@ final class ReachResult extends Model
         // Increment internal counters (i.e. performance improvements);
         // use defensive programming in the sense that if follower count
         // is not set, just use zero
-        $this->reach += $retweeter->followers_count ?? 0;
         $this->retweetersCount++;
+        $this->reach += $retweeter->followers_count ?? 0;
 
         return $this;
+    }
+
+    /**
+     * Set Tweet URL.
+     *
+     * @param string $url
+     * @return \App\Twitter\Models\ReachResult
+     */
+    public function setTweetUrl(string $url): ReachResult
+    {
+        $this->tweetUrl = $url;
+
+        return $this;
+    }
+
+    /**
+     * Set optional Tweet ID. Optionality allows
+     * responsibility of validation elsewhere.
+     *
+     * @param Tweet $tweet
+     * @return \App\Twitter\Models\ReachResult
+     */
+    public function setTweet(Tweet $tweet): ReachResult
+    {
+        $this->tweet = $tweet;
+
+        return $this;
+    }
+
+    /**
+     * Get Tweet ID.
+     *
+     * @return int|null
+     */
+    public function getTweetId(): ?int
+    {
+        return $this->tweetId;
+    }
+
+    /**
+     * Set optional Tweet ID. Optionality allows
+     * responsibility of validation elsewhere.
+     *
+     * @param int|null $id
+     * @return \App\Twitter\Models\ReachResult
+     */
+    public function setTweetId(?int $id): ReachResult
+    {
+        $this->tweetId = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get author in the form of a User object.
+     *
+     * @return \App\Twitter\Models\User
+     */
+    public function getAuthor(): User
+    {
+        return $this->tweet->user;
+    }
+
+    /**
+     * Returns whether we have a valid Tweet ID.
+     *
+     * @return bool
+     */
+    public function tweetIdIsValid(): bool
+    {
+        return $this->tweetId !== null;
+    }
+
+    /**
+     * Return result data as array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'reach'            => $this->getReach(),
+            'humanizedReach'   => $this->getHumanizedReachMetric(),
+            'reachDescription' => $this->getReachDescription(),
+            'hasRetweets'      => $this->hasRetweets(),
+            'retweetersCount'  => $this->getRetweetersCount(),
+            'tweet'            => $this->tweet->toArray(),
+        ];
+    }
+
+    /**
+     * Get reach metric.
+     *
+     * @return int
+     */
+    public function getReach(): int
+    {
+        return $this->reach;
     }
 
     /**
@@ -136,5 +201,39 @@ final class ReachResult extends Model
     public function getHumanizedReachMetric(): string
     {
         return NumberHumanizer::metricSuffix($this->reach);
+    }
+
+    /**
+     * Get reach description: one sentence with humanized
+     * reach number and the raw reach integer.
+     *
+     * @return string
+     */
+    public function getReachDescription(): string
+    {
+        return trans('wizard.result', [
+            'humanized' => $this->getHumanizedReachMetric(),
+            'number'    => $this->getReach(),
+        ]);
+    }
+
+    /**
+     * Return whether we have retweets.
+     *
+     * @return bool
+     */
+    public function hasRetweets(): bool
+    {
+        return ($this->tweet->retweet_count ?? 0) > 0;
+    }
+
+    /**
+     * Get count of retweeters
+     *
+     * @return int
+     */
+    public function getRetweetersCount(): int
+    {
+        return $this->retweetersCount;
     }
 }

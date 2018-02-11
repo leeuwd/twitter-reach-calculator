@@ -181,29 +181,22 @@ class Command
      */
     protected function printResult(ReachResult $result): bool
     {
-        // Tweet URL not valid (probably Tweet ID not in)
-        if (! $result->tweetUrlValid) {
-            self::error('The Tweet URL you provided is not valid.');
-
-            return false;
-        }
-
         // Tweet ID not valid
-        if (! $result->tweetIdValid) {
-            self::error('The Tweet ID could no be extracted.');
+        if (! $result->tweetIdIsValid()) {
+            self::error('The Tweet ID could no be extracted from the URL.');
 
             return false;
         }
 
         // Never retweeted
-        if (! $result->hasRetweets) {
+        if (! $result->hasRetweets()) {
             self::comment('The Tweet URL you provided was never retweeted. Bye.');
 
             return false;
         }
 
         // Print final result
-        self::info(\sprintf('The Tweet\'s had a reach of %s (%d).', $result->getHumanizedReachMetric(), $result->reach));
+        self::info($result->getReachDescription());
 
         // All good
         return true;
